@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/index.css">
+    <script src="./scripts/jquery.min.js"></script>
+    <!-- <script  src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
+    <title>X.O</title>
+</head>
+<body>
+    <div id="loading-container" class="modal ">
+        <div class="loading-table">
+            <div class="loading-cell player1alias child-cell-win ">x</div>
+            <div class="loading-cell"></div>
+            <div class="loading-cell player2alias">o</div>
+            <div class="loading-cell player2alias">o</div>
+            <div class="loading-cell player1alias child-cell-win">x</div>
+            <div class="loading-cell"></div>
+            <div class="loading-cell player1alias">x</div>
+            <div class="loading-cell player2alias">o</div>
+            <div class="loading-cell player1alias child-cell-win">x</div>
+        </div>
+        <div class="authorTitle">XO by Rya.M</div>
+    </div>
+    <div id="main-container" class="hide">
+ <div id="result" class="result hide">
+        <div id="banner" class="banner">you win ! </div>
+        <input class="input-btn" type="button" value="Play again!" id="replay-btn"></input>
+        <input class="exit-btn" type="button" value="exit" id="exit-btn"></input>
+    </div>
+    <div id="modal" class="modal ">
+        <!-- <div><span>current Player:</span><span id="currentplayer">X</span></div> -->
+        <div class="modal-name">
+            <div>
+                <div id="modal-msg">Creating a new game </div>
+                <div id="register-input">
+                    <div class="input-lable"> Name:</div>
+                <div class="input-container" >
+                    <input class="input-txt" type="text" id="playerName" maxlength="12"></input>
+                    <input class="input-btn" type="button" value="play!" id="play-btn"></input>
+                </div>
+                </div>
+                <div id="confirm-dialog" class="hide">
+                    <div class="input-container">
+                    <input class="input-btn" type="button" value="YES" id="accept-btn"></input>
+                    <input class="input-btn" type="button" value="NO" id="decline-btn"></input>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="authorTitle">XO by Rya.M</div>
+
+    </div>
+    <div id="game-container" class="container hide ">
+        <div class="header">
+            <div class="player1container">
+                <span id="player1Name"></span>
+                <div class="player1alias">X</div>
+            </div>
+            <div>vs</div>
+            <div class="player2container">
+                <span id="player2Name"></span>
+                <div class="player2alias">O</div>
+            </div>
+        </div>
+        <div class="table">
+            <div class="main-cell">
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+        </div>
+        <div class="footer">
+            <div>Share this link with your opponent: </div>
+            <div class="input-container ">
+                <input class="copy-btn" type="button" value="copy room link" id="gameLink"></input>
+                <input class="exit-btn" type="button" value="exit" id="exit-btn"></input>
+            </div>
+        </div>
+    </div>
+    </div>
+   
+</body>
+<script src="./scripts/socket.io.js"></script>
+<script src="./scripts/index.js" type="module"></script>
+
+</html>

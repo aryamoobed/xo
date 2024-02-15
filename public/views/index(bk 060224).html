@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="./scripts/jquery.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet"> -->
+    <link rel="stylesheet" href="../styles/index.css?v0.1">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.ico?v0.1">
+    <link rel="manifest" href="../images/site.webmanifest">
+    <title>X.O by Rya.M</title>
+    <audio src="../sounds/tic.mp3" id="tic-sound"></audio>
+    <audio src="../sounds/ding.mp3" id="ding-sound"></audio>
+    <audio src="../sounds/loose.mp3" id="loose-sound"></audio>
+    <audio src="../sounds/win.mp3" id="win-sound"></audio>
+</head>
+
+<body>
+    <div id="loading-container" class="modal ">
+        <div class="loading-table">
+            <div class="loading-cell player1alias child-cell-win "><span class="cell-span">x</span></div>
+            <div class="loading-cell"></div>
+            <div class="loading-cell player2alias"><span class="cell-span">o</span></div>
+            <div class="loading-cell player2alias"><span class="cell-span">o</span></div>
+            <div class="loading-cell player1alias child-cell-win"><span class="cell-span">x</span></div>
+            <div class="loading-cell"></div>
+            <div class="loading-cell player1alias"><span class="cell-span">x</span></div>
+            <div class="loading-cell player2alias"><span class="cell-span">o</span></div>
+            <div class="loading-cell player1alias child-cell-win"><span class="cell-span">x</span></div>
+        </div>
+        <div class="authorTitle">XO by Rya.M</div>
+    </div>
+    <div id="main-container" class="hide">
+        <div id="result" class="result hide">
+            <div id="banner" class="banner">
+                <div id="winner-name"> </div>
+                <div>
+                    <span>W</span>
+                    <span>i</span>
+                    <span>n</span>
+                    <span>s</span>
+                    <span>!</span>
+                </div>
+                <div id="looser-name"> </div>
+                <DIV>
+                    <span>l</span>
+                    <span>o</span>
+                    <span>o</span>
+                    <span>o</span>
+                    <span>ses!</span>
+                </DIV>
+            </div>
+            <input class="input-btn" type="button" value="Play again!" id="replay-btn">
+            <input class="exit-btn" type="button" value="exit" id="exit-btn">
+        </div>
+        <div id="modal" class="modal ">
+            <!-- <div><span>current Player:</span><span id="currentplayer">X</span></div> -->
+            <div class="modal-name">
+                <div>
+                    <div id="modal-msg">Creating a new game </div>
+                    <div id="register-input">
+                        <div class="input-lable"> Name:</div>
+                        <div class="input-container">
+                            <input class="input-txt" type="text" id="playerName" maxlength="12">
+                            <input class="input-btn" type="button" value="play!" id="play-btn">
+                        </div>
+                    </div>
+                    <div id="confirm-dialog" class="hide">
+                        <div class="input-container">
+                            <input class="input-btn" type="button" value="YES" id="accept-btn">
+                            <input class="input-btn" type="button" value="NO" id="decline-btn">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="authorTitle">XO by Rya.M</div>
+
+        </div>
+        <div id="game-container" class="container hide ">
+            <div class="header">
+                <div class="player1container">
+                    <span id="player1Name"></span>
+                    <div class="player1alias">X</div>
+                </div>
+                <div>vs</div>
+                <div class="player2container">
+                    <span id="player2Name"></span>
+                    <div class="player2alias">O</div>
+                </div>
+            </div>
+            <div class="table">
+                <div class="main-cell">
+                    <span class="main-cell-span hide"></span>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                </div>
+                <div class="main-cell">
+                    <span class="main-cell-span hide"></span>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                </div>
+                <div class="main-cell">
+                    <span class="main-cell-span hide"></span>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                </div>
+                <div class="main-cell">
+                    <span class="main-cell-span hide"></span>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                </div>
+                <div class="main-cell">
+                    <span class="main-cell-span hide"></span>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                </div>
+                <div class="main-cell">
+                    <span class="main-cell-span hide"></span>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                </div>
+                <div class="main-cell">
+                    <span class="main-cell-span hide"></span>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                </div>
+                <div class="main-cell">
+                    <span class="main-cell-span hide"></span>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                </div>
+                <div class="main-cell">
+                    <span class="main-cell-span hide"></span>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                    <div class="child-cell"></div>
+                </div>
+            </div>
+            <div class="footer">
+                <div>click to copy game link</div>
+                <div class="input-container ">
+                    <input class="copy-btn vibrate" type="button" value="copy room link" id="gameLink">
+                    <input class="exit-btn" type="button" value="exit" id="exit-btn">
+                </div>
+            </div>
+        </div>
+    </div>
+ <div id="modal" class="modal ">
+    <div id="help-container" class="container  help">
+        <span class="topic">Game toturial</span>
+        <div class="header">
+            <div class="player1container">
+                <span >Player1</span>
+                <div class="player1alias">X</div>
+            </div>
+            <div>vs</div>
+            <div class="player2container">
+                <span >player2</span>
+                <div class="player2alias">O</div>
+            </div>
+        </div>
+        <div class="table">
+            <div class="main-cell">
+                <span class="main-cell-span hide"></span>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <span class="main-cell-span hide"></span>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <span class="main-cell-span hide"></span>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <span class="main-cell-span hide"></span>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <span class="main-cell-span hide"></span>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <span class="main-cell-span hide"></span>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <span class="main-cell-span hide"></span>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <span class="main-cell-span hide"></span>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+            <div class="main-cell">
+                <span class="main-cell-span hide"></span>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+                <div class="child-cell"></div>
+            </div>
+        </div>
+        <div class="footer">
+            <span class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro possimus dolore quo pariatur, blanditiis nostrum. Tempore eveniet eaque non laboriosam provident? Amet nemo numquam magnam ex, blanditiis consequuntur iste recusandae!</span>
+        </div>
+    </div>
+ </div>
+</body>
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+    integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+    crossorigin="anonymous"></script>
+
+<!-- <script src="./scripts/socket.io.js"></script> -->
+<script src="../scripts/index.js" type="module"></script>
+
+</html>

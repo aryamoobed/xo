@@ -1,0 +1,504 @@
+@font-face {
+  font-family: "luckiest guy";
+  src: url("../fonts/luckiest guy.woff") format("woff");
+}
+
+body {
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 40vmin 10vmin 40vmin;
+  /* repeat(3, 30vmin); */
+  grid-template-rows: 10vmin;
+  place-items: center;
+  border-radius: 6px;
+  margin-bottom: 1vmin;
+  font-weight: bold;
+  color: rgb(56, 42, 41);
+  font-size: 5vmin;
+  padding-top: 2vmin;
+  margin-bottom: 2vmin;
+}
+
+.player1container,
+.player2container {
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  display: grid;
+  grid-template-columns: 75% 25%;
+  width: 90%;
+  height: 10vmin;
+  font-size: 4vmin;
+  background-color: powderblue;
+  border-radius: 5vmin;
+  font-family: Arial, Helvetica, sans-serif;
+  place-items: center;
+}
+
+.player1alias {
+  color: rgb(107, 9, 30);
+}
+
+.player2alias {
+  color: rgb(76, 112, 124);
+}
+
+.player-selected {
+  animation: blinking 2s infinite;
+  /* animation-iteration-count: 100; */
+}
+.topic {
+  position: absolute;
+  top: 2vmin;
+}
+#player1Name,
+#player2Name {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player1alias,
+.player2alias {
+  display: flex;
+  height: 9vmin;
+  width: 9vmin;
+  border-radius: 4.5vmin;
+  background-color: aliceblue;
+  justify-content: center;
+  font-size: 8vmin;
+}
+
+.footer {
+  margin-top: 2vmin;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  width: 90vmin;
+  height: fit-content;
+  /* background-color: rgb(195, 206, 208); */
+  border-radius: 2vmin;
+  font-size: 4vmin;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.description {
+  width: 90%;
+}
+.table {
+  display: grid;
+  grid-template-columns: repeat(3, 30vmin);
+  grid-template-rows: repeat(3, 30vmin);
+  place-items: center;
+  font-family: "luckiest guy";
+}
+
+.main-cell {
+  display: grid;
+  grid-template-columns: repeat(3, 8vmin);
+  grid-template-rows: repeat(3, 8vmin);
+  /* background-color: blue; */
+  column-gap: 2px;
+  row-gap: 2px;
+  font-size: 20vmin;
+}
+
+.main-win {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gold;
+  width: 26vmin;
+  height: 26vmin;
+  border-radius: 2vmin;
+  animation: slowAppear 1s none;
+}
+.main-cell-span {
+  position: absolute;
+}
+.child-cell {
+  /* background-color: rgb(235, 236, 230); */
+  background-color: gold;
+  border-radius: 2vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8vmin;
+}
+
+.modal,
+.result {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: cadetblue;
+  opacity: 90%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 90%;
+  border-radius: 30px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 7vmin;
+}
+.help {
+  display: flex;
+}
+.banner {
+  font-family: "luckiest guy";
+  color: gold;
+  font-size: 12vmin;
+  margin-bottom: 15vmin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.banner span {
+  text-align: center;
+  width: fit-content;
+}
+
+.banner div {
+  height: 15vmin;
+  display: inline-flex;
+}
+
+#replay-btn {
+  margin-bottom: 5vmin;
+}
+
+.modal-name {
+  align-items: center;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 5vmin;
+  margin-bottom: 20%;
+  /* margin-top: 10%; */
+}
+
+.modal input {
+  border: none;
+  height: 10vmin;
+}
+
+#modal-msg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: gold;
+}
+
+.input-txt {
+  border-radius: 5vmin;
+  background-color: floralwhite;
+  font-size: 5vmin;
+  text-align: center;
+  font-weight: bold;
+  width: 70%;
+}
+
+.input-btn,
+.copy-btn,
+.exit-btn {
+  width: auto;
+  padding: 1.5vmin;
+  font-size: 5vmin;
+  font-family: "luckiest guy";
+  border-radius: 5vmin;
+  color: brown;
+  border: none;
+  text-align: center;
+  box-shadow: 4px 4px brown;
+  background-color: antiquewhite;
+  min-width: 15vmin;
+}
+
+#confirm-dialog {
+  margin-top: 15vmin;
+}
+
+.authorTitle {
+  color: ghostwhite;
+  margin-top: auto;
+  margin-bottom: 5vmin;
+  font-size: 4vmin;
+}
+
+.alias-x {
+  color: rgb(107, 9, 30);
+}
+
+.alias-o {
+  color: rgb(76, 112, 124);
+}
+
+.playfield {
+  background-color: yellow;
+}
+
+.disabled {
+  background-color: lightgray;
+  /* opacity: 30%; */
+}
+
+.hide {
+  display: none;
+}
+
+.input-lable {
+  margin-top: 10vmin;
+}
+
+.exit-btn,
+.copy-btn {
+  margin-bottom: 3vmin;
+  border-radius: 5vmin;
+  margin-right: 5vmin;
+  margin-left: 5vmin;
+  padding: 2vmin;
+}
+
+#play-btn {
+  animation: vibrate 2s infinite;
+}
+.vibrate {
+  animation: vibrate 2s infinite;
+}
+.loading-table {
+  display: grid;
+  grid-template-columns: repeat(3, 15vmin);
+  grid-template-rows: repeat(3, 15vmin);
+  /* place-items: center; */
+
+  margin-top: auto;
+}
+
+.loading-cell {
+  background-color: gold;
+  border-radius: 3vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14vmin;
+  width: 90%;
+  height: 90%;
+}
+
+.cell-span {
+  height: 80%;
+  width: 80%;
+  text-align: center;
+  /* vertical-align: middle; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "luckiest guy";
+}
+
+.child-cell-win {
+  background-color: sandybrown;
+}
+
+.breath {
+  animation: breathing 2s infinite;
+}
+
+.waviy {
+  animation: flip 3s infinite;
+  /* animation-delay: calc(.2s * var(--i)) */
+}
+
+.pop {
+  animation: pop 2s infinite;
+}
+#description-input{
+  height: 80px;
+  width: 90%;
+}
+@keyframes pop {
+  0% {
+    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
+    opacity: 0%;
+  }
+
+  30%,
+  70% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 100%;
+  }
+
+  100% {
+    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
+    opacity: 0%;
+  }
+}
+
+@keyframes blinking {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    box-shadow: 0 0 0.5vmin 0.5vmin deepskyblue;
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    transform: scale(1.1);
+    box-shadow: 0 0 1vmin 0.5vmin deepskyblue;
+  }
+
+  75% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    box-shadow: 0 0 0.5vmin 0.5vmin deepskyblue;
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    box-shadow: 0 0 0.5vmin 0.5vmin deepskyblue;
+  }
+}
+
+@keyframes vibrate {
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes flip {
+  50% {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes switch {
+  50% {
+    opacity: 50%;
+  }
+}
+
+@-webkit-keyframes breathing {
+  /* 0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  } */
+
+  25% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+@keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+@keyframes slowAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes slowAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/**
+  * ==============================================
+  * Dot Typing
+  * ==============================================
+  */
+.dot-typing {
+  position: relative;
+
+  height: 10px;
+  border-radius: 5px;
+  animation: dot-typing 1s;
+}
+
+@keyframes dot-typing {
+  0% {
+    scale: 0;
+  }
+
+  100% {
+    scale: 1;
+  }
+}

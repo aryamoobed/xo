@@ -1,0 +1,16 @@
+[Unit]
+Description=ssh xo_srv service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+WorkingDirectory=/root/XO/
+ExecStart=/usr/bin/node /root/XO/app.js 
+Environment=PATH=/usr/bin:/usr/local/bin
+
+[Install]
+WantedBy=multi-user.target
