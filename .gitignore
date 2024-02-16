@@ -130,10 +130,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-index.js
-index.html
+
 fffff.json
 style.css
 test.js
 xo
 xo.rar
+./index.html
