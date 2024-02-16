@@ -2,7 +2,7 @@ let tempHelpConfig = [];
 let frame = [];
 let snap = [];
 let currentAlias = "x";
-let curentDisplayedHelp = 0;
+let curentDisplayedHelp = -1;
 let globalIntervals = [];
 $(document).on("click", "#help-container .child-cell", function () {
   const cellIndex = $(this).index(); //NOTE: as its not the first element in parent element it starts from 1
@@ -29,23 +29,29 @@ $(document).on("click", "#save-btn", function () {
   saveFrame();
 });
 $(document).on("click", "#help-next-btn", function () {
-  showScene("help-container", helpConfig, curentDisplayedHelp);
+  if (curentDisplayedHelp == helpConfig.length - 1) return;
   curentDisplayedHelp++;
-  if (curentDisplayedHelp == helpConfig.length)
-    return curentDisplayedHelp = helpConfig.length - 1;
+  showScene("help-container", helpConfig, curentDisplayedHelp);
 });
 $(document).on("click", "#help-prev-btn", function () {
-  showScene("help-container", helpConfig, curentDisplayedHelp);
+  if (curentDisplayedHelp == 0) return;
   curentDisplayedHelp--;
-  if (curentDisplayedHelp < 0) return curentDisplayedHelp = 0;
+  showScene("help-container", helpConfig, curentDisplayedHelp);
 });
+
 $(document).on("click", "#take-snap-btn", function () {
   saveSnapToFrame("help-container");
 });
 $(document).on("click", "#show-frame-btn", function () {
   showScene("help-container", tempHelpConfig.length - 1);
 });
+$(document).on("pointerdown", ".main-win", function () {
+  $(this).addClass("trans")
 
+});
+$(document).on("pointerup", ".main-win", function () {
+  $(this).removeClass("trans")
+});
 function checkWin(aliasPattern) {
   const winCombinations = [
     [1, 2, 3],
@@ -124,10 +130,10 @@ function playFrame(tableId, alias, parentCellIndex, cellIndex) {
     parentCell.children("span").addClass(`alias-${alias}`);
     parentCell.children("span").addClass("main-win");
     parentCell.children("span").on("animationend", (event) => {
-      parentCell.children(".child-cell").addClass("hide");
+      parentCell.children(".child-cell").addClass("disabled");
     });
 
-    console.log("win", parentCellIndex, alias);
+  //console.log("win", parentCellIndex, alias);
   }
   //check if the coresponding parentcell has a winner
   if (
@@ -135,7 +141,8 @@ function playFrame(tableId, alias, parentCellIndex, cellIndex) {
       "main-win"
     )
   ) {
-    $(`#${tableId}  .child-cell`).removeClass("disabled"); //make all cells available to play
+    // $(`#${tableId}  .child-cell`).removeClass("disabled"); //make all cells available to play
+    $(`#${tableId}  .main-cell span:not(.main-win) `).siblings(".child-cell").removeClass("disabled"); //make all cells except main winner ones available to play
   } else {
     $(
       `#${tableId} .main-cell:not(:nth-child(${cellIndex})) .child-cell`
@@ -151,14 +158,14 @@ function playFrame(tableId, alias, parentCellIndex, cellIndex) {
   $(`#${tableId} .main-win:contains("${alias}")`).each(function (index) {
     aliasPattern.push($(this).parent().index() + 1); //check for parent grid patter for a game winner
   });
-  if (checkWin(aliasPattern)) console.log(`${alias} wins the game`);
+  //if (checkWin(aliasPattern)) console.log(`${alias} wins the game`);
 }
 function saveFrame() {
   const description = $("#description-input").val();
   tempHelpConfig.push({ snap: snap, frame: frame, description: description });
   frame = [];
   snap = [];
-  console.log(tempHelpConfig);
+//console.log(tempHelpConfig);
 }
 function saveSnapToFrame(tableId) {
   frame = [];
@@ -173,7 +180,7 @@ function showScene(tableId, helpConfig, index) {
   //clear the previous show frames
   if (globalIntervals.length > 0) {
     clearInterval(globalIntervals[0]);
-    globalIntervals.splice(0,1);
+    globalIntervals.splice(0, 1);
   }
   //show help descriotion
   $(`#${tableId} #description-span`).text(helpConfig[index].description);
@@ -181,13 +188,13 @@ function showScene(tableId, helpConfig, index) {
   showSnap(tableId, helpConfig, index);
   //demo the actions
   let frameIndex = 0;
-if (helpConfig[index].frame.length > 0)
+  if (helpConfig[index].frame.length > 0)
     globalIntervals.push(
       setInterval(
         () => {
           if (frameIndex == helpConfig[index].frame.length) {
             showSnap(tableId, helpConfig, index);
-            frameIndex = 0;
+            return (frameIndex = 0);
           }
           playFrame(
             "help-container",

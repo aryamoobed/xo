@@ -1156,39 +1156,39 @@ let helpConfig=[
                 "text": "x"
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell alias-x hide disabled",
+                "class": "child-cell alias-x disabled",
                 "text": "x"
             },
             {
-                "class": "child-cell alias-x hide disabled",
+                "class": "child-cell alias-x disabled",
                 "text": "x"
             },
             {
-                "class": "child-cell alias-x hide disabled",
+                "class": "child-cell alias-x disabled",
                 "text": "x"
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
@@ -1276,39 +1276,39 @@ let helpConfig=[
                 "text": "o"
             },
             {
-                "class": "child-cell alias-o hide disabled",
+                "class": "child-cell alias-o disabled",
                 "text": "o"
             },
             {
-                "class": "child-cell alias-o hide disabled",
+                "class": "child-cell alias-o disabled",
                 "text": "o"
             },
             {
-                "class": "child-cell alias-o hide disabled",
+                "class": "child-cell alias-o disabled",
                 "text": "o"
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
@@ -1316,39 +1316,39 @@ let helpConfig=[
                 "text": "o"
             },
             {
-                "class": "child-cell alias-o hide disabled",
+                "class": "child-cell alias-o disabled",
                 "text": "o"
             },
             {
-                "class": "child-cell alias-o hide disabled",
+                "class": "child-cell alias-o disabled",
                 "text": "o"
             },
             {
-                "class": "child-cell alias-o hide disabled",
+                "class": "child-cell alias-o disabled",
                 "text": "o"
             },
             {
-                "class": "child-cell alias-x hide disabled",
+                "class": "child-cell alias-x disabled",
                 "text": "x"
             },
             {
-                "class": "child-cell alias-x hide disabled",
+                "class": "child-cell alias-x disabled",
                 "text": "x"
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
-                "class": "child-cell hide disabled",
+                "class": "child-cell  disabled",
                 "text": ""
             },
             {
