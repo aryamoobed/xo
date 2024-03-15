@@ -322,7 +322,9 @@ font-size: 8vmin;
 .input-lable {
   margin-top: 10vmin;
 }
-
+.help-span-container{
+  font-size: 2rem;
+}
 .exit-btn,
 .copy-btn {
   margin-bottom: 3vmin;
