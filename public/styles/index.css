@@ -60,7 +60,7 @@ body {
 }
 .topic {
   position: absolute;
-  top: 2vmin;
+  top: 4vmin;
 }
 #player1Name,
 #player2Name {
@@ -96,6 +96,36 @@ body {
 }
 .description {
   width: 90%;
+  height: 18vmin;
+  white-space: pre-wrap;
+}
+.close-button{
+  position: absolute;
+  top: 4vmin;
+  left: 4vmin;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 1rem;
+  background: rgb(240, 248, 255, 0.5);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Font Awesome 6 Free';
+  font-size: 1.2rem;
+ 
+}
+#help-index-spn{
+  font-size: 1.2rem;
+  font-family:"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+#help-buttons-container {
+  position: absolute;
+  width: 100%;
+  bottom: 1rem;
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.7rem;
 }
 .table {
   display: grid;
@@ -286,7 +316,7 @@ align-items: center;
 justify-content: center;
 font-size: 8vmin;
 } */
-.trans{
+.trans {
   opacity: 0.3;
 }
 .input-lable {
@@ -301,7 +331,11 @@ font-size: 8vmin;
   margin-left: 5vmin;
   padding: 2vmin;
 }
+.middle{
+  display: flex;
+  justify-content: center;
 
+}
 #play-btn {
   animation: vibrate 2s infinite;
 }
@@ -355,7 +389,7 @@ font-size: 8vmin;
 .pop {
   animation: pop 2s infinite;
 }
-#description-input{
+#description-input {
   height: 80px;
   width: 90%;
 }
@@ -491,7 +525,6 @@ font-size: 8vmin;
   100% {
     opacity: 1;
     transform: scale(1);
- 
   }
 }
 

@@ -1529,6 +1529,6 @@ let helpConfig=[
                 "currentAlias": "o"
             }
         ],
-        "description": "The player who wins a three smaller games in a row will be the winner.\n\nplayer2 (O) wins the above game.\n\nWish you enjoy ;)"
+        "description": "The player who wins a three smaller games in a row will be the winner.\nplayer2 (O) wins the above game.\nWish you enjoy ;)"
     }
 ]

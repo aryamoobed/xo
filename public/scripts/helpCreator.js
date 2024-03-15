@@ -4,6 +4,7 @@ let snap = [];
 let currentAlias = "x";
 let curentDisplayedHelp = -1;
 let globalIntervals = [];
+
 $(document).on("click", "#help-container .child-cell", function () {
   const cellIndex = $(this).index(); //NOTE: as its not the first element in parent element it starts from 1
   const parentCellIndex = $(this).parent().index() + 1; //NOTE: to treat the index same as above +1 is added
@@ -38,7 +39,6 @@ $(document).on("click", "#help-prev-btn", function () {
   curentDisplayedHelp--;
   showScene("help-container", helpConfig, curentDisplayedHelp);
 });
-
 $(document).on("click", "#take-snap-btn", function () {
   saveSnapToFrame("help-container");
 });
@@ -52,6 +52,8 @@ $(document).on("pointerdown", ".main-win", function () {
 $(document).on("pointerup", ".main-win", function () {
   $(this).removeClass("trans")
 });
+
+
 function checkWin(aliasPattern) {
   const winCombinations = [
     [1, 2, 3],
