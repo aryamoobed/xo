@@ -355,16 +355,13 @@ $(document).on("pointerup", ".main-win", function () {
   //hide the smaller game grid combination
   $(this).removeClass("trans");
 });
-
+$("#finger-pointer-spn").on("transitionend",(event)=>{
+  console.log(event.originalEvent.propertyName+"transitioned")
+ })
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////<<functions>>////////////////////////////////////
-function updatePageIndex(
-  element,
-  pageIndex,
-  totalPages
-) {
- 
- element.text(pageIndex+" / "+totalPages)
+function updatePageIndex(element, pageIndex, totalPages) {
+  element.text(pageIndex + " / " + totalPages);
 }
 function getCookie(cname) {
   let name = cname + "=";
@@ -474,6 +471,17 @@ function playFrame(tableId, alias, parentCellIndex, cellIndex) {
   )
     return console.log("invalid move!");
 
+  //animate move the finger pointere to the destination cell
+  $("#finger-pointer-spn").offset(
+    $(
+      `#${tableId} .main-cell:eq(${parentCellIndex - 1}) .child-cell:eq(${
+        cellIndex - 1
+      })`
+    ).offset()
+  );
+//  $("#finger-pointer-spn").on("transitionend webkitTransitionEnd",()=>{
+//   console.log("transitioned")
+//  })
   $(".waviy").removeClass("waviy");
 
   const playedCell = $(

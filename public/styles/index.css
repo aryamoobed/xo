@@ -303,7 +303,14 @@ body {
   background-color: lightgray;
   /* opacity: 30%; */
 }
-
+#finger-pointer-spn{
+  position: absolute;
+  transition: all 500ms linear;
+  color: black;
+  font-size: 8vmin;
+  padding-top: 4vmin;
+  z-index: 1000;
+}
 .hide {
   display: none;
 }

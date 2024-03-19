@@ -47,6 +47,9 @@
 .fa-question-circle::before {
   content: "\f059";
 }
+
+.fa-hand-pointer::before {
+  content: "\f25a"; }
 :root,
 :host {
   --fa-style-family-classic: "Font Awesome 6 Free";
