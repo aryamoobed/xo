@@ -305,10 +305,10 @@ body {
 }
 #finger-pointer-spn{
   position: absolute;
-  transition: all 500ms linear;
+  /* transition: all 5000ms linear; */
   color: black;
   font-size: 8vmin;
-  padding-top: 4vmin;
+  padding-top: 6vmin;
   z-index: 1000;
 }
 .hide {

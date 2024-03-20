@@ -181,6 +181,10 @@ socket.on("rematch", () => {
   $("#result").addClass("hide");
   $("#game-container").removeClass("hide");
 });
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////<<actions>>/////////////////////////////////////
+
 // $(".child-cell").hover(
 //   function () {
 //     const cellIndex = $(this).index(); //$(this).attr("cell");
@@ -260,27 +264,6 @@ $(document).on("click", "#game-container .child-cell", function () {
   );
   document.getElementById("tic-sound").play();
 });
-$(document).on("click", "#help-container .child-cell", function () {
-  const cellIndex = $(this).index(); //NOTE: as its not the first element in parent element it starts from 1
-  const parentCellIndex = $(this).parent().index() + 1; //NOTE: to treat the index same as above +1 is added
-  const mainCell = $("#help-container .main-cell");
-  // console.log(parentCellIndex, cellIndex);
-
-  if ($(this).hasClass("disabled")) return;
-  // $(`#help-container .main-cell:not(:nth-child(${cellIndex+1})) .child-cell`).addClass("disabled")
-  // $(`#help-container .main-cell:nth-child(${cellIndex+1}) .child-cell`).removeClass("disabled")
-  // $(this)[0].classList.add("alias-x");
-  // $(this)[0].innerHTML="X"
-
-  playFrame("help-container", currentAlias, parentCellIndex, cellIndex);
-  frame.push({
-    parentCellIndex: parentCellIndex,
-    cellIndex: cellIndex,
-    currentAlias: currentAlias,
-  });
-  // console.log(frame);
-  currentAlias == "o" ? (currentAlias = "x") : (currentAlias = "o");
-});
 $(document).on("click", "#replay-btn", function () {
   // document.location.reload();
   socket.emit(
@@ -355,9 +338,7 @@ $(document).on("pointerup", ".main-win", function () {
   //hide the smaller game grid combination
   $(this).removeClass("trans");
 });
-$("#finger-pointer-spn").on("transitionend",(event)=>{
-  console.log(event.originalEvent.propertyName+"transitioned")
- })
+
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////<<functions>>////////////////////////////////////
 function updatePageIndex(element, pageIndex, totalPages) {
@@ -472,78 +453,94 @@ function playFrame(tableId, alias, parentCellIndex, cellIndex) {
     return console.log("invalid move!");
 
   //animate move the finger pointere to the destination cell
-  $("#finger-pointer-spn").offset(
-    $(
-      `#${tableId} .main-cell:eq(${parentCellIndex - 1}) .child-cell:eq(${
-        cellIndex - 1
-      })`
-    ).offset()
-  );
-//  $("#finger-pointer-spn").on("transitionend webkitTransitionEnd",()=>{
-//   console.log("transitioned")
-//  })
-  $(".waviy").removeClass("waviy");
-
-  const playedCell = $(
-    `#${tableId} .main-cell:nth-child(${parentCellIndex}) .child-cell:nth-child(${
-      cellIndex + 1
-    })`
-  )[0];
-  playedCell.innerHTML = alias;
-  playedCell.classList.add(`alias-${alias}`);
-  playedCell.classList.add(`waviy`);
-  let aliasPattern = [];
-
-  $(
-    `#${tableId} .main-cell:nth-child(${parentCellIndex}) .child-cell:contains('${alias}')`
-  ).each(function (index) {
-    aliasPattern.push($(this).index());
-  });
-
-  //check if a grid has a winner
-  let isGridWin = checkWin(aliasPattern);
-  if (isGridWin) {
-    $(".waviy").removeClass("waviy");
-
-    const parentCell = $(
-      `#${tableId} .main-cell:nth-child(${parentCellIndex})`
-    );
-    parentCell.children("span").text(alias);
-    parentCell.children("span").removeClass("hide");
-    parentCell.children("span").addClass(`alias-${alias}`);
-    parentCell.children("span").addClass("main-win");
-    parentCell.children("span").on("animationend", (event) => {
-      parentCell.children(".child-cell").addClass("disabled");
-    });
-
-    //console.log("win", parentCellIndex, alias);
-  }
-  //check if the coresponding parentcell has a winner
-  if (
-    $(`#${tableId} .main-cell:nth-child(${cellIndex}) span`).hasClass(
-      "main-win"
+  // $("#finger-pointer-spn").offset(
+  //   $(
+  //     `#${tableId} .main-cell:eq(${parentCellIndex - 1}) .child-cell:eq(${
+  //       cellIndex - 1
+  //     })`
+  //   ).offset()
+  // );
+  $("#finger-pointer-spn")
+    .animate(
+      $(
+        `#${tableId} .main-cell:eq(${parentCellIndex - 1}) .child-cell:eq(${
+          cellIndex - 1
+        })`
+      ).position(),
+      500
     )
-  ) {
-    // $(`#${tableId}  .child-cell`).removeClass("disabled"); //make all cells available to play
-    $(`#${tableId}  .main-cell span:not(.main-win) `)
-      .siblings(".child-cell")
-      .removeClass("disabled"); //make all cells except main winner ones available to play
-  } else {
-    $(
-      `#${tableId} .main-cell:not(:nth-child(${cellIndex})) .child-cell`
-    ).addClass("disabled");
-    $(`#${tableId} .main-cell:nth-child(${cellIndex}) .child-cell`).removeClass(
-      "disabled"
-    ); //make only corresponding cells available to play
-  }
-  //check if game has a winner
-  if (!isGridWin) return; //if grid has no winner check is unneccesary
-  if ($(`#${tableId} .main-win:contains("${alias}")`).length < 3) return; //if less than 3 winner parent check in unneccesary
-  aliasPattern = [];
-  $(`#${tableId} .main-win:contains("${alias}")`).each(function (index) {
-    aliasPattern.push($(this).parent().index() + 1); //check for parent grid patter for a game winner
-  });
-  //if (checkWin(aliasPattern)) console.log(`${alias} wins the game`);
+    .animate({ "font-size": "7vmin" }, 150)
+    .animate({ "font-size": "8vmin" }, 150)
+    .promise()
+    .done(function () {
+      // console.log("promise done")
+
+      //  $("#finger-pointer-spn").on("transitionend webkitTransitionEnd",()=>{
+      //   console.log("transitioned")
+      //  })
+      $(".waviy").removeClass("waviy");
+
+      const playedCell = $(
+        `#${tableId} .main-cell:nth-child(${parentCellIndex}) .child-cell:nth-child(${
+          cellIndex + 1
+        })`
+      )[0];
+      playedCell.innerHTML = alias;
+      playedCell.classList.add(`alias-${alias}`);
+      playedCell.classList.add(`waviy`);
+      let aliasPattern = [];
+
+      $(
+        `#${tableId} .main-cell:nth-child(${parentCellIndex}) .child-cell:contains('${alias}')`
+      ).each(function (index) {
+        aliasPattern.push($(this).index());
+      });
+
+      //check if a grid has a winner
+      let isGridWin = checkWin(aliasPattern);
+      if (isGridWin) {
+        $(".waviy").removeClass("waviy");
+
+        const parentCell = $(
+          `#${tableId} .main-cell:nth-child(${parentCellIndex})`
+        );
+        parentCell.children("span").text(alias);
+        parentCell.children("span").removeClass("hide");
+        parentCell.children("span").addClass(`alias-${alias}`);
+        parentCell.children("span").addClass("main-win");
+        parentCell.children("span").on("animationend", (event) => {
+          parentCell.children(".child-cell").addClass("disabled");
+        });
+
+        //console.log("win", parentCellIndex, alias);
+      }
+      //check if the coresponding parentcell has a winner
+      if (
+        $(`#${tableId} .main-cell:nth-child(${cellIndex}) span`).hasClass(
+          "main-win"
+        )
+      ) {
+        // $(`#${tableId}  .child-cell`).removeClass("disabled"); //make all cells available to play
+        $(`#${tableId}  .main-cell span:not(.main-win) `)
+          .siblings(".child-cell")
+          .removeClass("disabled"); //make all cells except main winner ones available to play
+      } else {
+        $(
+          `#${tableId} .main-cell:not(:nth-child(${cellIndex})) .child-cell`
+        ).addClass("disabled");
+        $(
+          `#${tableId} .main-cell:nth-child(${cellIndex}) .child-cell`
+        ).removeClass("disabled"); //make only corresponding cells available to play
+      }
+      //check if game has a winner
+      if (!isGridWin) return; //if grid has no winner check is unneccesary
+      if ($(`#${tableId} .main-win:contains("${alias}")`).length < 3) return; //if less than 3 winner parent check in unneccesary
+      aliasPattern = [];
+      $(`#${tableId} .main-win:contains("${alias}")`).each(function (index) {
+        aliasPattern.push($(this).parent().index() + 1); //check for parent grid patter for a game winner
+      });
+      //if (checkWin(aliasPattern)) console.log(`${alias} wins the game`);
+    });
 }
 function showScene(tableId, helpConfig, index) {
   //clear the previous show frames
@@ -553,6 +550,10 @@ function showScene(tableId, helpConfig, index) {
   }
   //show help descriotion
   $(`#${tableId} #description-span`).text(helpConfig[index].description);
+  //recenter the finger pointer
+  $("#finger-pointer-spn").offset(
+    $(`#${tableId} .main-cell:eq(4) .child-cell:eq(4)`).offset()
+  );
   //initialize the game for help demo
   showSnap(tableId, helpConfig, index);
   //demo the actions
