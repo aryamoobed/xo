@@ -72,6 +72,7 @@ socket.on("player-update", (packet) => {
   $("#gameLink").text(location.origin + "/xo/" + roomId);
 });
 socket.on("update", (packet) => {
+  const tableId = "game-container";
   const data = JSON.parse(packet);
   currentPlayerAlias = data.currentPlayer;
   const player1 = $("#player1Name");
@@ -94,29 +95,20 @@ socket.on("update", (packet) => {
     player1container[0].classList.remove("player-selected");
     player2container[0].classList.add("player-selected");
   }
+ $(`#${tableId} .waviy`).removeClass("waviy");
 
   data.gameTable.forEach((item, i) => {
-    let mainCell = $(".main-cell");
+    let mainCell = $(`#${tableId} .main-cell`);
     mainCell[i].classList.remove("playfield");
-    if (item.master.winner != undefined && !item.master.winner.isPot) {
-      let alias = item.master.winner.winnerAlias;
-
-      // mainCell[i].innerText= item.master.winner.winnerAlias;
-      $(`.main-cell:nth-child(${i + 1}) .child-cell`).addClass("hide");
-      $(".main-cell span")[i].innerHTML = item.master.winner.winnerAlias;
-      $(".main-cell span")[i].classList.remove("hide");
-
-      mainCell[i].classList.add("main-win");
-      if (alias != "")
-        alias == "X"
-          ? mainCell[i].classList.add("alias-x")
-          : mainCell[i].classList.add("alias-o");
-    }
+   
+    //render the game table based on the recieved packet
     item["child"].forEach((element, j) => {
       let alias = element.cellValue;
       let childCell = xoTable[i * 9 + j];
+
+      //display each cell value and condition
       childCell.innerHTML = element.cellValue;
-      childCell.classList.remove("waviy");
+      // childCell.classList.remove("waviy");
 
       if (element.status == "enabled") {
         childCell.classList.add("enabled");
@@ -125,16 +117,33 @@ socket.on("update", (packet) => {
         childCell.classList.remove("enabled");
         childCell.classList.add("disabled");
       }
+
       if (alias != "")
-        alias == "X"
-          ? childCell.classList.add("alias-x")
-          : childCell.classList.add("alias-o");
+        $(`#${tableId} .main-cell:eq(${i}) .child-cell:eq(${j})`).addClass(
+          `alias-${alias.toLowerCase()}`
+        );
     });
+
+    //handle the mini game if has a winner
+    if (item.master.winner != undefined && !item.master.winner.isPot) {
+      let alias = item.master.winner.winnerAlias;
+
+      const parentCell = $(`#${tableId} .main-cell:nth-child(${i + 1})`);
+      parentCell.children("span").text(alias.toUpperCase());
+      parentCell.children("span").removeClass("hide");
+      parentCell.children("span").addClass(`alias-${alias.toLowerCase()}`);
+      parentCell.children("span").addClass("main-win");
+      parentCell.children("span").on("animationend", (event) => {
+        parentCell.children(".child-cell").addClass("disabled");
+      });
+    }
   });
-  if (data.lastMove != undefined && !data.isGameEnd)
-    xoTable[
-      data.lastMove.masterIndex * 9 + data.lastMove.childIndex
-    ].classList.add("waviy");
+
+  //animate the last cell played
+  if (data.gameTable[data.lastMove.masterIndex].master.winner == undefined)
+    $(
+      `#${tableId} .main-cell:eq(${data.lastMove.masterIndex}) .child-cell:eq(${data.lastMove.childIndex})`
+    ).addClass("waviy");
 
   if (data.isGameEnd) {
     let winnerName = "";
@@ -161,12 +170,10 @@ socket.on("update", (packet) => {
     // }
 
     $("#result").removeClass("hide");
-    $("#game-container").addClass("hide");
+    $(`#${tableId}`).addClass("hide");
     player1container[0].classList.remove("player-selected");
     player2container[0].classList.remove("player-selected");
-    xoTable[
-      data.lastMove.masterIndex * 9 + data.lastMove.childIndex
-    ].classList.remove("waviy");
+    $(`#${tableId} .waviy`).removeClass("waviy");
     return;
   }
   if (data.currentPlayer == playerAlias)
@@ -452,14 +459,6 @@ function playFrame(tableId, alias, parentCellIndex, cellIndex) {
   )
     return console.log("invalid move!");
 
-  //animate move the finger pointere to the destination cell
-  // $("#finger-pointer-spn").offset(
-  //   $(
-  //     `#${tableId} .main-cell:eq(${parentCellIndex - 1}) .child-cell:eq(${
-  //       cellIndex - 1
-  //     })`
-  //   ).offset()
-  // );
   $("#finger-pointer-spn")
     .animate(
       $(
@@ -563,7 +562,8 @@ function showScene(tableId, helpConfig, index) {
       setInterval(
         () => {
           if (frameIndex == helpConfig[index].frame.length) {
-            showSnap(tableId, helpConfig, index);
+            //reset the scene and the coresponding playing interval
+            showScene(tableId, helpConfig, index);
             return (frameIndex = 0);
           }
           playFrame(

@@ -393,6 +393,5 @@ setInterval(() => {
   if (!rooms) return
   for (const [key, value] of Object.entries(rooms)) {
     io.to(key).emit("update", JSON.stringify(value));
-
   }
 }, 5000);
