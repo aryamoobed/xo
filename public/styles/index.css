@@ -99,7 +99,7 @@ body {
   height: 18vmin;
   white-space: pre-wrap;
 }
-.close-button{
+.close-button {
   position: absolute;
   top: 4vmin;
   left: 4vmin;
@@ -111,13 +111,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Font Awesome 6 Free';
+  font-family: "Font Awesome 6 Free";
   font-size: 1.2rem;
- 
 }
-#help-index-spn{
+#help-index-spn {
   font-size: 1.2rem;
-  font-family:"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 #help-buttons-container {
   position: absolute;
@@ -126,6 +125,7 @@ body {
   display: flex;
   justify-content: space-around;
   font-size: 1.7rem;
+
 }
 .table {
   display: grid;
@@ -237,7 +237,12 @@ body {
   margin-bottom: 20%;
   /* margin-top: 10%; */
 }
-
+.register-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 5vmin;
+}
 .modal input {
   border: none;
   height: 10vmin;
@@ -303,7 +308,7 @@ body {
   background-color: lightgray;
   /* opacity: 30%; */
 }
-#finger-pointer-spn{
+#finger-pointer-spn {
   position: absolute;
   /* transition: all 5000ms linear; */
   color: black;
@@ -329,7 +334,7 @@ font-size: 8vmin;
 .input-lable {
   margin-top: 10vmin;
 }
-.help-span-container{
+.help-span-container {
   font-size: 2rem;
 }
 .exit-btn,
@@ -340,10 +345,15 @@ font-size: 8vmin;
   margin-left: 5vmin;
   padding: 2vmin;
 }
-.middle{
+.help-button-container {
+  position: absolute;
   display: flex;
   justify-content: center;
-
+  width: -webkit-fill-available;
+  left: 0;
+  top: 74%;
+  font-size: 10vmin;
+  color: floralwhite;
 }
 #play-btn {
   animation: vibrate 2s infinite;
@@ -401,6 +411,73 @@ font-size: 8vmin;
 #description-input {
   height: 80px;
   width: 90%;
+}
+/*radioi slider button*/
+.radio-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2vmin;
+  font-family: "luckiest guy";
+  color: gray;
+  margin-top: 5vmin;
+}
+.radio-tabs {
+  display: flex;
+  position: relative;
+  background-color:floralwhite;
+  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15),
+    0 6px 12px 0 rgba(24, 94, 224, 0.15);
+  width: 40vmin;
+  height: 11vmin;
+  border-radius: 99px;
+  justify-content: space-around;
+}
+.radio-tabs * {
+  z-index: 2;
+}
+input[type="radio"] {
+  display: none;
+}
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20vmin;
+  font-size: 5vmin;
+  font-weight: 500;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: color 0.15s ease-in;
+}
+
+input[type="radio"]:checked + label {
+  color: brown;
+}
+
+input[id="radio-1"]:checked ~ .slider {
+  transform: translateX(0);
+}
+input[id="radio-2"]:checked ~ .slider {
+  transform: translateX(100%);
+}
+.slider {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  display: flex;
+  height: 100%;
+  width: 50%;
+  background-color: antiquewhite;
+  z-index: 1;
+  border-radius: 99px;
+  transition: 0.25s ease-out;
+}
+
+@media (max-width: 700px) {
+  .tabs {
+    transform: scale(0.6);
+  }
 }
 @keyframes pop {
   0% {

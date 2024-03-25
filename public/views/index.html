@@ -3,17 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <script src="./scripts/jquery.min.js"></script> -->
-    <!-- <script
-      src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-      integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
-      crossorigin="anonymous"
-    ></script> -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../scripts/jquery-3.7.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> -->
     <script src="../statics/help.js"></script>
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="../styles/index.css?v0.1" />
     <link rel="stylesheet" href="../styles/fontawsome6.css" />
     <link
@@ -111,7 +103,7 @@
             <div id="modal-msg">Creating a new game</div>
             <div id="register-input">
               <div class="input-lable">Name:</div>
-              <div class="input-container">
+              <div class="register-input-container">
                 <input
                   class="input-txt"
                   type="text"
@@ -125,7 +117,16 @@
                   id="play-btn"
                 />
               </div>
-              <div class="middle">
+              <div class="radio-container">
+                <div class="radio-tabs">
+                  <input type="radio" id="radio-1" name="tabs" checked />
+                  <label class="tab" for="radio-1">Single</label>
+                  <input type="radio" id="radio-2" name="tabs" />
+                  <label class="tab" for="radio-2">Dual</label>
+                  <span class="slider"></span>
+                </div>
+              </div>
+              <div class="help-button-container">
                 <span class="far fa-question-circle"></span>
               </div>
             </div>
@@ -426,12 +427,11 @@
       </div>
     </div>
   </body>
-  <script
+  <!-- <script
     src="https://cdn.socket.io/4.6.0/socket.io.min.js"
     integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
     crossorigin="anonymous"
-  ></script>
-
-  <!-- <script src="./scripts/socket.io.js"></script> -->
+  ></script> -->
+  <script src="../scripts/socket.io.min.js"></script>
   <script src="../scripts/index.js" type="module"></script>
 </html>
