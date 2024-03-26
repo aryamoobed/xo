@@ -24,8 +24,9 @@ let playersRoomId = {};
 const port = process.env.PORT || 80;
 
 app.get("/", function (req, res) {
-  return res.redirect("/xo")
-})
+  return res.redirect("/xo");
+});
+
 app.get("/xo/:tagId?", function (req, res) {
   let linkRoomId = req.params.tagId;
   if (linkRoomId && !rooms[linkRoomId])
@@ -88,12 +89,15 @@ app.post("/xo/:tagId?", function (req, res) {
     );
 
   return res.send(
-    JSON.stringify({ isNewGame: true, msg: "Creating a new game" })
+    JSON.stringify({
+      isNewGame: true,
+      msg: "Creating a new game",
+      isGameModeVisible: true,
+    })
   );
 });
 
-
-server.listen(port, function () { });
+server.listen(port, function () {});
 
 io.on("connection", (socket) => {
   socket.on("client-update", (packet) => {
@@ -101,6 +105,7 @@ io.on("connection", (socket) => {
     socket.join(data.roomId);
     io.to(data.roomId).emit("update", JSON.stringify(rooms[data.roomId]));
   });
+  //new game is created or user wants to join a game(have a correct coockie info)
   socket.on("join-room", (packet) => {
     data = JSON.parse(packet);
     let roomId = "";
@@ -123,7 +128,7 @@ io.on("connection", (socket) => {
         gameTable: createTableArray(),
         createDate: new Date(),
         move: [],
-        round:[]
+        round: [],
       };
       // console.log(rooms)
       socket.join(roomId);
@@ -131,7 +136,9 @@ io.on("connection", (socket) => {
       let result = rooms[roomId].player1;
       result.roomId = roomId;
       socket.emit("player-update", JSON.stringify(result)); // create and send new room link
-    } else {
+    }
+    //user wants to join a correct and available game
+    else {
       if (rooms[data.roomId]) {
         roomId = data.roomId;
         rooms[roomId].player2 = {
@@ -155,21 +162,22 @@ io.on("connection", (socket) => {
         });
       }
     }
-    //console.log(rooms)
-    //console.log(playersRoomId)
-
+    //update both players status
     io.to(roomId).emit("update", JSON.stringify(rooms[roomId]));
   });
+  //whan a player plays a move
   socket.on("moveUpdate", (packet) => {
     const data = JSON.parse(packet);
     const currentPlayer = rooms[data.roomId].currentPlayer;
     const gameTable = rooms[data.roomId].gameTable;
     const masterIndex = data.masterIndex;
     const childIndex = data.childIndex;
+
+    //validate the player side and a cell played
     if (
       data.playerAlias != currentPlayer ||
       gameTable[masterIndex]["child"][childIndex]["cellValue"].status ==
-      "disabled"
+        "disabled"
     )
       return;
     rooms[data.roomId].move.push({
@@ -210,18 +218,16 @@ io.on("connection", (socket) => {
           winner: rooms[data.roomId].winnerAlias,
         }),
       });
-
-
     }
   });
   socket.on("rematch", (packet) => {
     const data = JSON.parse(packet);
-    delete rooms[data.roomId].lastMove
+    delete rooms[data.roomId].lastMove;
     rooms[data.roomId].isGameEnd = false;
-    rooms[data.roomId].round.push(rooms[data.roomId].winnerAlias)
+    rooms[data.roomId].round.push(rooms[data.roomId].winnerAlias);
     rooms[data.roomId].isPot = false;
     rooms[data.roomId].winnerAlias = "";
-    rooms[data.roomId].move = []
+    rooms[data.roomId].move = [];
     rooms[data.roomId].gameTable = createTableArray();
     io.to(data.roomId).emit("rematch", JSON.stringify(data.playerId));
 
@@ -233,9 +239,7 @@ io.on("connection", (socket) => {
         p2: rooms[data.roomId].player2,
       }),
     });
-
   });
-
   socket.on("exit-room", (roomId) => {
     if (rooms[roomId] == undefined) return;
     const room = rooms[roomId];
@@ -255,6 +259,8 @@ io.on("connection", (socket) => {
   });
 });
 
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////<<functions>>////////////////////////////////////
 function createTableArray() {
   let arr = {};
   let counter = 0;
@@ -389,8 +395,9 @@ function updateTable(table, masterIndex, childIndex, playerAlias) {
   //return checkWin(table, masterIndex, playerAlias);
 }
 
+//update all rooms in case of lost connection
 setInterval(() => {
-  if (!rooms) return
+  //for each room brodcast the latest status to both players
   for (const [key, value] of Object.entries(rooms)) {
     io.to(key).emit("update", JSON.stringify(value));
   }

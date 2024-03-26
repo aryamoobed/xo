@@ -36,7 +36,14 @@ $(document).ready(function () {
 postJSON(data).then((data) => {
   //console.log(data);
   $("#modal-msg").text(data.msg);
+  //only on creating a new game show the game mode button
+  if (data.isGameModeVisible === true) {
+    $("#game-mode-radio").show();
+  } else {
+    $("#game-mode-radio").hide();
+  }
 
+  //show a confirm dialouge for switching the game room
   if (data.isSwitchGame) {
     $("#confirm-dialog").removeClass("hide");
     $("#register-input").addClass("hide");
@@ -95,12 +102,12 @@ socket.on("update", (packet) => {
     player1container[0].classList.remove("player-selected");
     player2container[0].classList.add("player-selected");
   }
- $(`#${tableId} .waviy`).removeClass("waviy");
+  $(`#${tableId} .waviy`).removeClass("waviy");
 
   data.gameTable.forEach((item, i) => {
     let mainCell = $(`#${tableId} .main-cell`);
     mainCell[i].classList.remove("playfield");
-   
+
     //render the game table based on the recieved packet
     item["child"].forEach((element, j) => {
       let alias = element.cellValue;
