@@ -1,3 +1,4 @@
+const fs = require("fs");
 const winston = require("winston");
 const util = require("util");
 const express = require("express");
@@ -19,6 +20,9 @@ const logger = winston.createLogger({
   ],
 });
 
+let playerNamesList = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "/static/names.json"), "utf8")
+);
 let rooms = {};
 let playersRoomId = {};
 const port = process.env.PORT || 80;
@@ -105,6 +109,7 @@ io.on("connection", (socket) => {
     socket.join(data.roomId);
     io.to(data.roomId).emit("update", JSON.stringify(rooms[data.roomId]));
   });
+
   //new game is created or user wants to join a game(have a correct coockie info)
   socket.on("join-room", (packet) => {
     data = JSON.parse(packet);
@@ -129,7 +134,21 @@ io.on("connection", (socket) => {
         createDate: new Date(),
         move: [],
         round: [],
+        gameMode: data.gameMode,
       };
+
+      //create a fake player for single player mode :D
+      if (rooms[roomId].gameMode == 1) {
+        rooms[roomId].player2 = {
+          //machine user default id
+          id: -1,
+          //pick a random name for opponent(machine)
+          name: playerNamesList[
+            parseInt(Math.random() * playerNamesList.length)
+          ],
+          alias: "O",
+        };
+      }
       // console.log(rooms)
       socket.join(roomId);
       playersRoomId[playerId] = roomId;
@@ -173,40 +192,22 @@ io.on("connection", (socket) => {
     const masterIndex = data.masterIndex;
     const childIndex = data.childIndex;
 
-    //validate the player side and a cell played
+    //validate the player turn and a cell played
     if (
       data.playerAlias != currentPlayer ||
       gameTable[masterIndex]["child"][childIndex]["cellValue"].status ==
         "disabled"
     )
       return;
-    rooms[data.roomId].move.push({
-      masterIndex: masterIndex,
-      childIndex: childIndex,
-      playerAlias: currentPlayer,
-      time: new Date(),
-    });
-    updatedRoom = updateTable(
-      gameTable,
-      masterIndex,
-      childIndex,
-      currentPlayer
-    );
-    rooms[data.roomId].lastMove = {
-      masterIndex: masterIndex,
-      childIndex: childIndex,
-    };
-    rooms[data.roomId].gameTable = updatedRoom.table;
-    rooms[data.roomId].isGameEnd = updatedRoom.isGameEnd;
-    rooms[data.roomId].isPot = updatedRoom.isPot;
-    rooms[data.roomId].winnerAlias = currentPlayer;
 
-    currentPlayer == "X"
-      ? (rooms[data.roomId].currentPlayer = "O")
-      : (rooms[data.roomId].currentPlayer = "X");
-    //console.log(checkWin(rooms[data.roomId].gameTable, data.masterIndex - 1, data.playerAlias));
+    //play the user action
+    playCell(rooms[data.roomId], masterIndex, childIndex, currentPlayer);
+
+    if (rooms[data.roomId].gameMode == 1) playRandom(rooms[data.roomId]);
+    //update both player status
     io.to(data.roomId).emit("update", JSON.stringify(rooms[data.roomId]));
 
+    //log the end of game
     if (rooms[data.roomId].isGameEnd) {
       logger.log({
         level: "info",
@@ -372,29 +373,97 @@ function updateTable(table, masterIndex, childIndex, playerAlias) {
   table[masterIndex]["child"][childIndex]["cellValue"] = playerAlias;
   let result = checkWin(table, masterIndex, playerAlias);
 
-  ////disable the coresponding cells for next player
+  //corresponding small game has a winner
+  //     (active all none winner small games)
   if (result.table[childIndex].master.winner != undefined) {
     result.table.map((childTable) => {
+      //disable completed small game cells
+      childTable.master.winner != undefined
+        ? (cellStatus = "disabled")
+        : (cellStatus = "enabled");
+
       childTable["child"].map((element) => {
-        element.status = "enabled"; //disable all table cells
+        element.status = cellStatus; //enable all table cells
       });
     });
-  } else {
+  }
+
+  //in case the corresponding small game has no winner yet (its cells can be played)
+  else {
     result.table.map((childTable) => {
       childTable["child"].map((element) => {
         element.status = "disabled"; //disable all table cells
         // element.status = "enabled"; //disable all table cells
       });
-    });
-    result.table[childIndex]["child"].map((element) => {
-      element.status = "enabled"; //enable play area for next player
+      //enable the corresponding small game cells for the opponent
+      result.table[childIndex]["child"].map((element) => {
+        element.status = "enabled"; //enable play area for next player
+      });
     });
   }
 
   return result;
   //return checkWin(table, masterIndex, playerAlias);
 }
+function playCell(room, masterIndex, childIndex, currentPlayer) {
+  // keep track of the user played cells
+  room.move.push({
+    masterIndex: masterIndex,
+    childIndex: childIndex,
+    playerAlias: currentPlayer,
+    time: new Date(),
+  });
 
+  //implement the action to the room
+  updatedRoom = updateTable(
+    room.gameTable,
+    masterIndex,
+    childIndex,
+    currentPlayer
+  );
+  //update the last played cell (for front end animation)
+  room.lastMove = {
+    masterIndex: masterIndex,
+    childIndex: childIndex,
+  };
+  room.gameTable = updatedRoom.table;
+  room.isGameEnd = updatedRoom.isGameEnd;
+  room.isPot = updatedRoom.isPot;
+  room.winnerAlias = currentPlayer;
+
+  //set the next turn player in the room
+  currentPlayer == "X"
+    ? (room.currentPlayer = "O")
+    : (room.currentPlayer = "X");
+}
+
+function getAvailabeMoves(table) {
+  let result = [];
+  table.forEach((childTable, masterIndex) => {
+    if (childTable.master.winner != undefined) return;
+    childTable["child"].forEach((item, childIndex) => {
+      if ((item.cellValue != "") | (item.status != "enabled")) return;
+      result.push({ masterIndex: masterIndex, childIndex: childIndex });
+    });
+  });
+  return result
+}
+
+function playRandom(room) {
+  const delayRandom = parseInt(Math.random() * 4) + 1; //1-5 sec random play delay :D
+  const availableMoves = getAvailabeMoves(room.gameTable);
+  const randomMove = availableMoves[
+    parseInt(Math.random() * availableMoves.length)
+  ];
+  setTimeout(() => {
+    playCell(
+      room,
+      randomMove.masterIndex,
+      randomMove.childIndex,
+      room.currentPlayer
+    );
+  }, delayRandom);
+}
 //update all rooms in case of lost connection
 setInterval(() => {
   //for each room brodcast the latest status to both players

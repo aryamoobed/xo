@@ -227,7 +227,7 @@ $(document).on("click", "#decline-btn", function (event) {
   location.assign("/xo");
 });
 $(document).on("click", "#play-btn", function () {
-  playerName = $("#playerName").val();
+   playerName = $("#playerName").val();
   if (!playerName) return;
   $("#modal").addClass("hide");
   $("#game-container").removeClass("hide");
@@ -238,6 +238,7 @@ $(document).on("click", "#play-btn", function () {
       roomId: roomId,
       playerName: playerName,
       playerId: playerId,
+      gameMode: parseInt(($("#game-mode-radio :checked").attr("id")).split("-")[1])
     })
   );
 });
