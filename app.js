@@ -203,7 +203,7 @@ io.on("connection", (socket) => {
     //play the user action
     playCell(rooms[data.roomId], masterIndex, childIndex, currentPlayer);
 
-    if (rooms[data.roomId].gameMode == 1) playRandom(rooms[data.roomId]);
+    if (rooms[data.roomId].gameMode == 1) playRandom(data.roomId);
     //update both player status
     io.to(data.roomId).emit("update", JSON.stringify(rooms[data.roomId]));
 
@@ -449,19 +449,21 @@ function getAvailabeMoves(table) {
   return result
 }
 
-function playRandom(room) {
-  const delayRandom = parseInt(Math.random() * 4) + 1; //1-5 sec random play delay :D
-  const availableMoves = getAvailabeMoves(room.gameTable);
+function playRandom(roomId) {
+  const delayRandom = parseInt(Math.random() * 2000) + 500; //1-5 sec random play delay :D
+  const availableMoves = getAvailabeMoves(rooms[roomId].gameTable);
   const randomMove = availableMoves[
     parseInt(Math.random() * availableMoves.length)
   ];
   setTimeout(() => {
     playCell(
-      room,
+      rooms[roomId],
       randomMove.masterIndex,
       randomMove.childIndex,
-      room.currentPlayer
+      rooms[roomId].currentPlayer
     );
+    io.to(roomId).emit("update", JSON.stringify(rooms[roomId]));
+
   }, delayRandom);
 }
 //update all rooms in case of lost connection
