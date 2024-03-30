@@ -272,19 +272,37 @@
             <div class="child-cell"></div>
           </div>
         </div>
+
         <div class="footer">
-          <div>click to copy game link</div>
+          <span id="footer-description-spn" class="hide"
+            >click to copy game link</span
+          >
           <div class="input-container">
             <div class="help-span-container">
-              <span class="far fa-question-circle"></span>
+              <i class="far fa-question-circle"></i>
             </div>
-            <input
-              class="copy-btn vibrate"
-              type="button"
-              value="copy room link"
-              id="gameLink"
-            />
-            <input class="exit-btn" type="button" value="exit" id="exit-btn" />
+            <div class="tooltip hide">
+              <span class="tooltiptext">
+                copy the room address and share it with your friend to join the
+                game.</span
+              >
+
+              <input
+                class="copy-btn vibrate "
+                type="button"
+                value="copy room link"
+                id="gameLink"
+              />
+            </div>
+            <!-- <input class="exit-btn" type="button" value="exit" /> -->
+            <i class="simple-exit-button" id="exit-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                  d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"
+                />
+              </svg>
+            </i>
           </div>
         </div>
       </div>
@@ -293,16 +311,8 @@
       <div id="help-container" class="container help">
         <span class="topic">Game toturial</span>
         <span id="help-close-btn" class="close-button">X</span>
-        <div class="header">
-          <div class="player1container">
-            <span>Player1</span>
-            <div class="player1alias">X</div>
-          </div>
-          <div>vs</div>
-          <div class="player2container">
-            <span>player2</span>
-            <div class="player2alias">O</div>
-          </div>
+        <div class="description-container">
+          <span id="description-span" class="description"></span>
         </div>
         <span id="finger-pointer-spn" class="fa-solid fa-hand-pointer"></span>
         <div class="table">
@@ -416,7 +426,6 @@
           </div>
         </div>
         <div class="footer">
-          <span id="description-span" class="description"></span>
           <!-- <textarea id="description-input" cols="4" rows="5"></textarea> -->
         </div>
         <div id="help-buttons-container">

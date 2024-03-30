@@ -50,7 +50,7 @@ app.post("/xo/:tagId?", function (req, res) {
   // if (!linkRoomId && !rooms[cookieRoomId]) //no link and wrong(or no) cookie -> new game
   if (!linkRoomId && rooms[cookieRoomId])
     //no link and a correct cookie -> join the room Id in cookie
-    return res.send(JSON.stringify({ isNewGame: false }));
+    return res.send(JSON.stringify({ isNewGame: false,gameMode:rooms[cookieRoomId].gameMode}));
   if (linkRoomId && !rooms[cookieRoomId]) {
     // correct link and a wrong(or no) cookie -> delete coookie and join the room in link
     rooms[linkRoomId].player1.id == linkRoomId
@@ -436,7 +436,6 @@ function playCell(room, masterIndex, childIndex, currentPlayer) {
     ? (room.currentPlayer = "O")
     : (room.currentPlayer = "X");
 }
-
 function getAvailabeMoves(table) {
   let result = [];
   table.forEach((childTable, masterIndex) => {
@@ -448,7 +447,6 @@ function getAvailabeMoves(table) {
   });
   return result
 }
-
 function playRandom(roomId) {
   const delayRandom = parseInt(Math.random() * 2000) + 500; //1-5 sec random play delay :D
   const availableMoves = getAvailabeMoves(rooms[roomId].gameTable);

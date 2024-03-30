@@ -42,7 +42,7 @@ postJSON(data).then((data) => {
   } else {
     $("#game-mode-radio").hide();
   }
-
+  if (data.gameMode === 2) $("#gameLink").parent().show();
   //show a confirm dialouge for switching the game room
   if (data.isSwitchGame) {
     $("#confirm-dialog").removeClass("hide");
@@ -76,6 +76,7 @@ socket.on("player-update", (packet) => {
   playerId = player.id;
   playerAlias = player.alias;
   saveCookie();
+  if (packet.gameMode == 2) $("#gameLink, #footer-description-spn").show();
   $("#gameLink").text(location.origin + "/xo/" + roomId);
 });
 socket.on("update", (packet) => {
@@ -90,8 +91,12 @@ socket.on("update", (packet) => {
   const player2container = $(".player2container");
   if (data.player2.name == "") {
     player2.text("waiting ...");
+
   } else {
     player2.text(data.player2.name);
+    $("#gameLink")
+    .prev(".tooltiptext")
+    .css({ opacity: "0", visibility: "hidden" });
   }
   player1.text(data.player1.name);
 
@@ -227,18 +232,23 @@ $(document).on("click", "#decline-btn", function (event) {
   location.assign("/xo");
 });
 $(document).on("click", "#play-btn", function () {
-   playerName = $("#playerName").val();
+  playerName = $("#playerName").val();
   if (!playerName) return;
+  const gameMode = parseInt(
+    $("#game-mode-radio :checked").attr("id").split("-")[1]
+  );
   $("#modal").addClass("hide");
   $("#game-container").removeClass("hide");
   // $("#main").removeClass("hide");
+  if (gameMode == 2) $("#gameLink").parent().show();
+
   socket.emit(
     "join-room",
     JSON.stringify({
       roomId: roomId,
       playerName: playerName,
       playerId: playerId,
-      gameMode: parseInt(($("#game-mode-radio :checked").attr("id")).split("-")[1])
+      gameMode: gameMode,
     })
   );
 });
@@ -251,6 +261,9 @@ $(document).on("click", "#gameLink", function () {
   textArea.select();
   document.execCommand("Copy");
   textArea.remove();
+  $("#gameLink")
+    .prev(".tooltiptext")
+    .css({ opacity: "0", visibility: "hidden" });
   $(this).attr("value", "link copied");
   setTimeout(() => {
     $(this).attr("value", inputValue);
@@ -467,6 +480,7 @@ function playFrame(tableId, alias, parentCellIndex, cellIndex) {
   )
     return console.log("invalid move!");
 
+  //animate the finger pointer movement and click
   $("#finger-pointer-spn")
     .animate(
       $(
@@ -480,7 +494,9 @@ function playFrame(tableId, alias, parentCellIndex, cellIndex) {
     .animate({ "font-size": "8vmin" }, 150)
     .promise()
     .done(function () {
-      // console.log("promise done")
+      //if the timer is available
+      if (globalIntervals.length == 0) return;
+      console.log("promise done");
 
       //  $("#finger-pointer-spn").on("transitionend webkitTransitionEnd",()=>{
       //   console.log("transitioned")
@@ -557,15 +573,19 @@ function showScene(tableId, helpConfig, index) {
   }
   //show help descriotion
   $(`#${tableId} #description-span`).text(helpConfig[index].description);
-  //recenter the finger pointer
-  $("#finger-pointer-spn").offset(
-    $(`#${tableId} .main-cell:eq(4) .child-cell:eq(4)`).offset()
-  );
+  //show the finger pointer
+  $("#finger-pointer-spn").hide();
   //initialize the game for help demo
   showSnap(tableId, helpConfig, index);
   //demo the actions
   let frameIndex = 0;
-  if (helpConfig[index].frame.length > 0)
+  if (helpConfig[index].frame.length > 0) {
+    //hide the finger pointer for the start of the scene
+    $("#finger-pointer-spn").fadeIn(2000);
+    //recenter the finger pointer
+    $("#finger-pointer-spn").offset(
+      $(`#${tableId} .main-cell:eq(4) .child-cell:eq(4)`).offset()
+    );
     globalIntervals.push(
       setInterval(
         () => {
@@ -587,6 +607,7 @@ function showScene(tableId, helpConfig, index) {
         2000
       )
     );
+  }
 }
 function showSnap(tableId, helpConfig, index) {
   $(`#${tableId} .main-cell`)

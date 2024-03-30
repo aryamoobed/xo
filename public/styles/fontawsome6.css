@@ -33,11 +33,9 @@
 .fa-regular {
   font-family: "Font Awesome 6 Free";
 }
-
 .fa-arrow-alt-circle-left::before {
   content: "\f359";
 }
-
 .fa-arrow-alt-circle-right::before {
   content: "\f35a";
 }
@@ -47,9 +45,14 @@
 .fa-question-circle::before {
   content: "\f059";
 }
-
 .fa-hand-pointer::before {
-  content: "\f25a"; }
+  content: "\f25a";
+}
+.fa-right-from-bracket::before {
+  content: "\f2f5";
+}
+.fa-link::before {
+  content: "\f0c1"; }
 :root,
 :host {
   --fa-style-family-classic: "Font Awesome 6 Free";

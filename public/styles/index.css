@@ -70,7 +70,11 @@ body {
   align-items: center;
   justify-content: center;
 }
+.message-box{
+  width:80%;
+  position: absolute;
 
+}
 .player1alias,
 .player2alias {
   display: flex;
@@ -94,9 +98,13 @@ body {
   font-size: 4vmin;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
-.description {
+.description-container{
   width: 90%;
-  height: 18vmin;
+  height: 28vmin;
+  font-size: 4.5vmin;
+  text-align: center;
+}
+.description {
   white-space: pre-wrap;
 }
 .close-button {
@@ -235,6 +243,7 @@ body {
   justify-content: space-around;
   margin-top: 5vmin;
   margin-bottom: 20%;
+  width: 100%;
   /* margin-top: 10%; */
 }
 .register-input-container {
@@ -280,7 +289,14 @@ body {
   background-color: antiquewhite;
   min-width: 15vmin;
 }
+.simple-exit-button{
+  width: 8vmin;
 
+}
+.simple-link-button{
+  width: 9vmin;
+
+}
 #confirm-dialog {
   margin-top: 15vmin;
 }
@@ -335,7 +351,7 @@ font-size: 8vmin;
   margin-top: 10vmin;
 }
 .help-span-container {
-  font-size: 2rem;
+  font-size: 10vmin;
 }
 .exit-btn,
 .copy-btn {
@@ -344,6 +360,9 @@ font-size: 8vmin;
   margin-right: 5vmin;
   margin-left: 5vmin;
   padding: 2vmin;
+}
+.copy-btn{
+  width: 45vmin;
 }
 .help-button-container {
   position: absolute;
@@ -473,6 +492,40 @@ input[id="radio-2"]:checked ~ .slider {
   border-radius: 99px;
   transition: 0.25s ease-out;
 }
+/* tooltip style */
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  visibility: visible;
+  width: 50vmin;
+  background-color:rgb(0,0,0,0.7);
+  color: #fff;
+  text-align: center;
+  border-radius:3vmin;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 120%;
+  left: 5%;
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -2.5vmin;
+  border-width: 2.5vmin;
+  border-style: solid;
+  border-color: rgb(0,0,0,0.7) transparent transparent transparent;
+}
+
+
 
 @media (max-width: 700px) {
   .tabs {
